@@ -1,0 +1,125 @@
+{>layout/} 
+
+{<body}  
+
+<h1>Recipe Manager</h1>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModel">
+    Add Recipe
+</button>
+   
+<br/>
+
+{#recipes}
+<div class="well">
+    <h4>
+        {name} 
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#recipes_{id}" role="button" aria-expanded="false" aria-controls="#recipes_{id}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+            </svg>
+        </a>
+    </h4>
+
+    <div class="collapse" id="recipes_{id}">
+        <div class="card card-body">
+            <br/>
+            <br/>
+            <p><strong>Ingredients: </strong>{ingredients}</p>
+            <p><strong>Directions: </strong>{directions}</p>
+        </div>
+        <br/>
+        
+        <button type="button" class="btn btn-light edit-recipe"
+            data-bs-toggle="modal" 
+            data-bs-target="#editformModel"
+            data-id="{id}"
+            data-name="{name}"
+            data-ingredients="{ingredients}"
+            data-directions="{directions}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5,1,01,00,00,01,2,50Z"/>
+            </svg>
+        </button>
+
+        <button type="button" class="btn btn-danger delete-recipe" data-id="{id}">
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+</svg>
+        </button>
+    </div>
+</div>
+{/recipes}
+
+<!-- Add Modal -->
+<div class="modal fade" id="formModel" tabindex="-1" aria-labelledby="formModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/add">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Add Recipe</h1>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                    <div class='form_group'>
+                        <label>Recipe Name</label>
+                        <input type='text' class='form-control' name='name'/>
+                    </div>
+                    <div class='form_group'>
+                        <label>Ingredients</label>
+                        <input type='text' class='form-control' name='ingredients'/>
+                    </div>
+                    <div class='form_group'>
+                        <label>Directions</label>
+                        <input type='text' class='form-control' name='directions'/>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                    <input type='submit' class='btn btn-primary' value='Save'/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class='modal fade' id='editformModel' tabindex='-1' aria-labelledby='editformModelLabel' aria-hidden='true'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <form method='post' action='/edit'>
+                <!-- Hidden field for recipe ID -->
+                <input type='hidden' id='edit-form-id' name='id'/>
+                <div class='modal-header'>
+                    <h1 class='modal-title fs-5'>Edit Recipe</h1> <!-- Changed title for clarity -->
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                    <!-- Form fields for editing -->
+                    <div class='form_group'>
+                        <label>Recipe Name</label>
+                        <input type='text' class='form-control' name='name' id='edit-form-name'/>
+                    </div>
+                    <div class='form_group'>
+                        <label>Ingredients</label>
+                        <input type='text' class='form-control' name='ingredients' id='edit-form-ingredients'/>
+                    </div>
+                    <div class='form_group'>
+                        <label>Directions</label>
+                        <input type='text' class='form-control' name='directions' id='edit-form-directions'/>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                    <!-- Corrected input value attribute -->
+                    <input type='submit' class='btn btn-primary' value='Save'/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{/body}
